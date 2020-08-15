@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- head 中 -->
+    <link rel="stylesheet" href="css/materialize.min.css">
+
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <title>H5 网页示例</title>
+</head>
+<body style="margin-left: 10px;margin-right: 10px">
+<div class="alert alert-primary" role="alert">
+    本页面由materializecss构建： <a href="http://www.materializecss.cn/">http://www.materializecss.cn</a>
+</div>
+
+
+<div class="card-panel" >
+
+    <div >
+
+        <div>功能选择</div>
+
+        <div  style="float: right">
+            <p>
+                <label>
+                    <input name="radio" class="with-gap" type="radio" id="one" value="1"/>
+                    <span>定时模式</span>
+                </label>
+            </p>
+            <p>
+                <label>
+                    <input name="radio" class="with-gap" type="radio" id="two" value="2"/>
+                    <span>挂机模式</span>
+                </label>
+            </p>
+            <p>
+                <label>
+                    <input class="with-gap" name="radio" type="radio" id="three" value="3"/>
+                    <span>自动模式</span>
+                </label>
+            </p>
+        </div>
+
+        <div >
+            <form name="functionName">
+        <p >
+            <label>
+                <input type="checkbox"  name="get" id="get" class="filled-in"/>
+                <span>收取能量</span>
+            </label>
+
+        </p>
+
+        <p>
+            <label>
+                <input type="checkbox" name="gold" id="gold" class="filled-in"/>
+                <span>收金球</span>
+            </label>
+        </p>
+        <p>
+            <label>
+                <input type="checkbox" name="help" id="help" class="filled-in"/>
+                <span>帮收能量</span>
+            </label>
+        </p>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+    <div class="card-panel" style="margin-left: 10px;margin-right: 10px;" id="time" >
+        <span class="blue-text text-darken-2">定时循环</span>
+        <div class="row">
+            <div class="input-field col s6">
+                <label>多少分钟后执行</label>
+            </div>
+            <div class="input-field col s6">
+                <input type="number" class="validate" id="task2_time">
+                <label for="task2_time">分钟</label>
+            </div>
+        </div>
+        <label style="margin-left: 10px">
+            <input type="checkbox" class="filled-in" id="task2_cancel_before" checked/>
+            <span>执行时先取消正在运行的任务</span>
+        </label>
+        <div style="margin-top: 20px ;margin-left: 10px">
+            <a class="waves-effect waves-light btn" onclick="startTimer(2)">开启定时</a>
+        </div>
+    </div>
+
+    <div class="card-panel" style="margin-left: 10px;margin-right: 10px;" id="Hangup" >
+        <span class="blue-text text-darken-2">挂机循环</span>
+
+
+    </div>
+
+    <div class="card-panel" style="margin-left: 10px;margin-right: 10px;" id="auto" >
+        <span class="blue-text text-darken-2">自动计时</span>
+
+
+    </div>
+
+
+<div class="row "  >
+
+    <div class="col s6">
+        <button class="btn waves-effect waves-light " type="button" name="action" onclick="javascript:save()">保存参数
+        </button>
+    </div>
+    <div class="col s6">
+        <button class="btn waves-effect waves-light" type="button" name="action" onclick="javascript:startScript()">
+            启动脚本
+        </button>
+    </div>
+
+</div>
+<script src="htmljs/jquery.min.js"></script>
+<script src="htmljs/materialize.min.js"></script>
+
+
+</body>
+
+
+
+
+<script>
+
+
+
+
+    $(function () {
+
+        var one = window.ec.getConfig("one");
+        if (one === "true") {
+            $("#one").attr("checked", "checked");
+            $("#auto").hide(800);
+            $("#Hangup").hide(800);
+            $("#time").show(800);
+
+
+        }
+        var two = window.ec.getConfig("two");
+        if (two === "true") {
+            $("#two").attr("checked", "checked");
+            $("#time").hide(800);
+            $("#auto").hide(800);
+            $("#Hangup").show(800);
+        }
+        var three = window.ec.getConfig("three");
+        if (three === "true") {
+            $("#three").attr("checked", "checked");
+            $("#time").hide(800);
+            $("#Hangup").hide(800);
+            $("#auto").show(800);
+        }
+
+        var get = window.ec.getConfig("get");
+        if (get === "true") {
+            $("#get").attr("checked", "checked");
+
+        }
+
+        var gold = window.ec.getConfig("gold");
+        if (gold === "true") {
+            $("#gold").attr("checked", "checked");
+        }
+
+        var help = window.ec.getConfig("help");
+        if (help === "true") {
+            $("#help").attr("checked", "checked");
+        }
+
+
+
+
+        window.ec.hideStartBtn();
+
+
+
+
+
+        $("input[type=radio][name='radio']").change(function(){
+            var v = $(this).val();
+
+            if (v =="1"){
+                $("#auto").hide(800);
+                $("#Hangup").hide(800);
+                $("#time").show(800);
+            }else if (v =="2") {
+                $("#time").hide(800);
+                $("#auto").hide(800);
+                $("#Hangup").show(800);
+
+            }else {
+                $("#time").hide(800);
+                $("#Hangup").hide(800);
+                $("#auto").show(800);
+            }
+        });
+
+    });
+
+
+function  startScript() {
+    save();
+    window.ec.showLogWindow();
+
+    window.ec.start();
+
+}
+    
+    
+    //保存参数的函数
+    function save() {
+
+        //一年级
+        window.ec.saveConfig("one", $("#one").prop("checked"));
+        window.ec.saveConfig("two", $("#two").prop("checked"));
+        window.ec.saveConfig("three", $("#three").prop("checked"));
+
+        window.ec.saveConfig("get", $("#get").prop("checked"));
+        window.ec.saveConfig("gold", $("#gold" ).prop("checked"));
+        window.ec.saveConfig("help", $("#help").prop("checked"));
+
+
+
+        window.ec.toast("保存成功");
+
+
+    }
+    function startTimer(type) {
+        window.ec.showLogWindow();
+        var time = $("#task" + type + "_time").val();
+        var cancel_before = $("#task" + type + "_cancel_before").prop("checked");
+        var date = $("#task" + type + "_date").val();
+        if (time == null || time == '') {
+            M.toast({html: '没填写时间'});
+            return;
+        }
+        if (type == 1) {
+            if (date == null || date == '') {
+                M.toast({html: '没填写日期'});
+                return;
+            }
+        }
+        //保存历史记录
+        window.ec.saveConfig("task" + type + "_time", time);
+        window.ec.saveConfig("task" + type + "_date", date);
+        window.ec.saveConfig("task" + type + "_cancel_before", cancel_before);
+
+        //这个tag在脚本里面可以使用readConfigString("jobTaskTag")读取到，可以知晓从个任务过来的
+        var taskTag = "task" + type;
+        var after = null;
+        if (type == 1) {
+            after = (date + " " + time);
+            window.ec.logd("任务" + taskTag + "定时: " + after);
+        } else {
+            //转换成秒
+            after = time * 60;
+            window.ec.logd("任务" + taskTag + "定时: " + (time) + "分钟后");
+        }
+        var jobid = window.ec.startJob(taskTag, after, cancel_before);
+        if (jobid > 0) {
+            window.ec.logd("创建任务成功，ID：" + jobid);
+            M.toast({html: '创建定时任务成功' + taskTag});
+        } else {
+            window.ec.logd("创建任务失败，ID：" + jobid);
+            M.toast({html: '创建定时任务失败' + taskTag});
+        }
+
+
+    }
+
+
+</script>
+</html>

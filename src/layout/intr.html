@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- head 中 -->
+    <link rel="stylesheet" href="css/materialize.min.css">
+
+
+    <title>H5 网页示例</title>
+</head>
+<body style="padding: 20px">
+
+<div class="card-panel">
+    <span class="blue-text text-darken-2" id="service">运行模式</span>
+</div>
+
+
+
+<br/>
+
+<div class="" style="padding: 5px">
+    <a class="waves-effect waves-light btn" onclick="openEnv()">启动环境</a>
+
+</div>
+
+
+
+<br/>
+<div class="" style="padding: 5px">
+    <a class="waves-effect waves-light btn" onclick="floatViewPermission()">开启悬浮窗权限</a>
+
+</div>
+
+<!-- body 最后 -->
+<script src="htmljs/jquery.min.js"></script>
+<script src="htmljs/materialize.min.js"></script>
+
+
+</body>
+
+
+<script>
+
+
+
+    function openEnv() {
+        var r = window.ec.startEnv();
+        if (r) {
+            window.ec.toast("无障碍开启成功" );
+        }else {
+
+            window.ec.toast("无障碍开启失败" );
+        }
+    }
+
+    function floatViewPermission() {
+        var r = window.ec.requestFloatViewPermission(10);
+        if(r){
+            window.ec.toast("开启选浮窗权限成功" );
+        }else {
+            window.ec.toast("开启选浮窗权限失败" );
+        }
+
+    }
+</script>
+
+</html>
